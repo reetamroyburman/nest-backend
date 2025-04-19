@@ -1,0 +1,1 @@
+{"development":{"username":"root","password":"password","database":"local_nest_backend","host":"localhost","dialect":"mysql","seederStorage":"json","seederStoragePath":"sequelizeMeta.json"}}
