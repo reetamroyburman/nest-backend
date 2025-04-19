@@ -8,7 +8,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config()
 
-const apiDocCreds = {
+const apiDocumentationCredentials = {
   username: process.env.SWAGGER_USERNAME,
   password: process.env.SWAGGER_PASSWORD
 }
@@ -21,33 +21,37 @@ async function bootstrap() {
   app.enableCors();
   app.use(helmet());
 
-  //swagger setup with authentication
-  app.use("/api/ducimentation", (req, res, next) => {
+  // Swagger setup with authentication
+  app.use('/api/documentation', (req, res, next) => {
     const parseAuthHeader = (input: string): { name: string; pass: string } => {
-      const [, encodedPart] = input.split(" ");
+      const [, encodedPart] = input.split(' ')
       const buff = Buffer.from(encodedPart, 'base64')
       const text = buff.toString('ascii')
       const [name, pass] = text.split(':')
       return { name, pass }
-    };
+    }
 
-    const unAuthorizedResponse =(): void => {
+    const unauthorizedResponse = (): void => {
       res.status(HttpStatus.UNAUTHORIZED).setHeader('WWW-Authenticate', 'Basic')
       next()
     }
-    
-    if (!req.header.authorization){
-      return unAuthorizedResponse
+
+    if (!req.headers.authorization) {
+      return unauthorizedResponse()
     }
 
-    const credentials = parseAuthHeader (req.header.authentication)
+    const credentials = parseAuthHeader(req.headers.authorization)
+    console.log('credentials>>>>>', credentials)
 
-    if (credentials.name !== apiDocCreds.username || credentials.pass !== apiDocCreds.password) return unAuthorizedResponse()
+    if (credentials.name !== apiDocumentationCredentials.username || credentials.pass !== apiDocumentationCredentials.password) {
+      return unauthorizedResponse()
+    }
+
     next()
-  });
+  })
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Nest BAckend')
+    .setTitle('Nest Backend')
     .setDescription('Backend with nestJS')
     .setVersion('1.0')
     .build()
