@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { IApiResponse } from 'src/interfaces/common/IApiResponse'
+import { IApiResponse } from '../interfaces/common/IApiResponse'
 
 @Injectable()
 export class UserService {
@@ -25,6 +25,7 @@ export class UserService {
     }
 
     fetchOne () {
+        console.log('gggg')
         return 'Hello World!';
   }
 }
