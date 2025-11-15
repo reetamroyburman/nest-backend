@@ -41,7 +41,7 @@ async function bootstrap() {
     }
 
     const credentials = parseAuthHeader(req.headers.authorization)
-    console.log('credentials>>>>>', credentials)
+    // console.log('credentials>>>>>', credentials)
 
     if (credentials.name !== apiDocumentationCredentials.username || credentials.pass !== apiDocumentationCredentials.password) {
       return unauthorizedResponse()

@@ -1,3 +1,5 @@
+'use strict';
+const { v4: uuidv4 } = require('uuid');
 
 const USERS_TABLE = 'users'
 
@@ -9,10 +11,15 @@ module.exports = {
         USERS_TABLE,
         {
           id: {
-            type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV4,
+            type: Sequelize.BIGINT,
             allowNull: false,
+            autoIncrement: true,
             primaryKey: true,
+          },
+          uuid: {
+            type: Sequelize.DataTypes.STRING(255),
+            allowNull: false,
+            defaultValue: uuidv4()
           },
           first_name: {
             type: Sequelize.STRING(50),
@@ -49,6 +56,18 @@ module.exports = {
           is_active: {
             type: Sequelize.BOOLEAN,
             defaultValue: true,
+          },
+          created_by: {
+            type: Sequelize.BIGINT,
+            allowNull: true,
+            references: { model: USERS_TABLE, key: 'id' },
+            onUpdate: 'CASCADE'
+          },
+          updated_by: {
+            type: Sequelize.BIGINT,
+            allowNull: true,
+            references: { model: USERS_TABLE, key: 'id' },
+            onUpdate: 'CASCADE'
           },
           created_at: {
             type: Sequelize.DATE,

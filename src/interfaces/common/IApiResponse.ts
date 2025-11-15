@@ -1,6 +1,6 @@
 import { MULTITYPE } from '../../constants/dataType'
 
-export interface IHttpResponse {
+export interface IApiResponse {
     statuscode?: number;
     status?: string;
     result?: MULTITYPE;

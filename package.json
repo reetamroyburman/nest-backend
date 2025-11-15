@@ -24,7 +24,12 @@
     "create:service": "nest g service",
     "migrate:create": "cd database && npx sequelize-cli migration:generate --name",
     "migrate:up": "cd database && npx sequelize-cli db:migrate",
-    "migrate:down": "cd database && npx sequelize-cli db:migrate:undo"
+    "migrate:down": "cd database && npx sequelize-cli db:migrate:undo",
+    "seed:create": "cd database && npx sequelize-cli seed:generate --name",
+    "seed:sync": "cd database && npx sequelize-cli db:seed --seed",
+    "seed:syncAll": "cd database && npx sequelize-cli db:seed:all",
+    "seed:undo": "cd database && npx sequelize-cli db:seed:undo",
+    "seed:undoAll": "cd database && npx sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.787.0",
@@ -32,13 +37,15 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.1.2",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^16.5.0",
     "helmet": "^8.1.0",
     "mysql2": "^3.14.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "sequelize": "^6.37.7",
-    "swagger": "^0.7.5"
+    "swagger": "^0.7.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
