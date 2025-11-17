@@ -1,6 +1,6 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { ApiSecurity } from '@nestjs/swagger';
-import { IApiResponse } from 'src/interfaces/common/IApiResponse';
+import { IApiResponse } from '../interfaces/common/IApiResponse';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -11,22 +11,22 @@ export class UserController {
   @Get()
   async fetchAll ( @Req() request: Request, @Res() response: Response) {
     try {
-        // return {
-        //     statuscode: 200,
-        //     status: 'success',
-        //     message: 'Users fetched successfully.',
-        //     result: [
-        //         {
-        //             id: 1,
-        //             name: 'John Doe',
-        //             email: 'reetam@gmail.com'
-        //         }
-        //     ]
-        // }  
+        return {
+            statuscode: 200,
+            status: 'success',
+            message: 'Users fetched successfully.',
+            result: [
+                {
+                    id: 1,
+                    name: 'John Doe',
+                    email: 'reetam@gmail.com'
+                }
+            ]
+        }  
 
-      const fetchAllUsersResponse: IApiResponse = await this.usersService.fetchAll()
+      // const fetchAllUsersResponse: IApiResponse = await this.usersService.fetchAll()
 
-      return fetchAllUsersResponse
+      // return fetchAllUsersResponse
 
     } catch (error) {
       console.error('[UserController] [fetch] Some error occurred while fetching users ::', { error })
