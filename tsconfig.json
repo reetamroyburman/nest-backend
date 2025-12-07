@@ -17,6 +17,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "typeRoots": ["./node_modules/@types", "./src/constants/custom.request.ts"]
+    "typeRoots": ["./node_modules/@types", "src/shared/constants/custom.request.ts"]
   }
 }

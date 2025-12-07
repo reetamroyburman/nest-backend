@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '../../src/configurations/sequelize';
-import { TableNames } from '../../src/constants/tableNames';
+import { sequelize } from '../../../../../configurations/sequelize';
+import { TableNames } from '../../../../../shared/constants/tableNames';
+import { UserAddress } from './IUserAddresses';
 
 // Define User attributes interface
 interface IUserAttributes {
@@ -24,7 +25,7 @@ interface IUserAttributes {
 // For creation, some fields are optional
 interface IUserCreationAttributes extends Optional<IUserAttributes, 'id' | 'uuid' | 'is_active' | 'created_by' | 'updated_by' | 'created_at' | 'updated_at' | 'deleted_at'> {}
 
-const User = sequelize.define<Model<IUserAttributes, IUserCreationAttributes>>(
+const Users = sequelize.define<Model<IUserAttributes, IUserCreationAttributes>>(
   TableNames.USERS,
   {
     id: {
@@ -106,4 +107,14 @@ const User = sequelize.define<Model<IUserAttributes, IUserCreationAttributes>>(
   }
 );
 
-export { User, IUserAttributes, IUserCreationAttributes };
+Users.hasMany(UserAddress, {
+  as: 'user_addresses',
+  foreignKey: 'user_id'
+});
+
+UserAddress.belongsTo(Users, {
+  as: 'user',
+  foreignKey: 'user_id'
+})
+
+export { Users, IUserAttributes, IUserCreationAttributes };

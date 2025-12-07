@@ -1,14 +1,9 @@
-import { Sequelize } from 'sequelize';
-import { environment } from './environment';
+import { Sequelize } from 'sequelize'
+import { Env } from '../shared/constants/env'
 
-export const sequelize = new Sequelize(
-  environment.DB_NAME,
-  environment.DB_USERNAME,
-  environment.DB_PASSWORD,
-  {
-    host: environment.DB_HOST,
-    dialect: 'mysql',
-    logging: false,
-    port: +environment.DB_PORT,
-  },
-);
+export const sequelize = new Sequelize(Env.DB_NAME, Env.DB_USERNAME, Env.DB_PASSWORD, {
+  host: Env.DB_HOST,
+  dialect: 'mysql',
+  logging: false,
+  port: +Env.DB_PORT
+})

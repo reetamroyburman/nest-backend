@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '../../src/configurations/sequelize';
-import { TableNames } from '../../src/constants/tableNames';
+import { sequelize } from '../../../../../configurations/sequelize';
+import { TableNames } from '../../../../../shared/constants/tableNames';
+import { Users } from './IUsers';
 
 interface IUserAddresses {
   id: number;
@@ -123,5 +124,16 @@ const UserAddress = sequelize.define<Model<IUserAddresses, IUserAddressesCreatio
     underscored: true,
   }
 );
+
+// UserAddress.belongsTo(Users, {
+//   as: 'user',
+//   foreignKey: 'user_id'
+// });
+
+// Users.hasMany(UserAddress, {
+//   as: 'user_addresses',
+//   foreignKey: 'user_id'
+// });
+
 
 export { UserAddress, IUserAddresses, IUserAddressesCreation };

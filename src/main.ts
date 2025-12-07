@@ -1,25 +1,27 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import helmet from "helmet";
-import { HttpStatus } from "@nestjs/common";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { environment } from "./configurations/environment";
-import * as dotenv from 'dotenv';
-
-dotenv.config()
+/* eslint-disable no-unused-vars */
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+import helmet from 'helmet'
+import { HttpStatus, ValidationPipe } from '@nestjs/common'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { Env } from './shared/constants/env'
+// import MessageBroker from './helper/rabbitMQ/messageQ'
 
 const apiDocumentationCredentials = {
-  username: process.env.SWAGGER_USERNAME,
-  password: process.env.SWAGGER_PASSWORD
+  name: Env.SWAGGER_UNAME,
+  pass: Env.SWAGGER_PASSWORD
 }
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+async function bootstrap () {
+  const app = await NestFactory.create(AppModule)
 
-  app.setGlobalPrefix("api");
+  // Add global prefix for all controllers
+  app.setGlobalPrefix('api')
 
-  app.enableCors();
-  app.use(helmet());
+  app.enableCors()
+  app.use(helmet())
+
+  app.useGlobalPipes(new ValidationPipe({ disableErrorMessages: false }))
 
   // Swagger setup with authentication
   app.use('/api/documentation', (req, res, next) => {
@@ -41,25 +43,35 @@ async function bootstrap() {
     }
 
     const credentials = parseAuthHeader(req.headers.authorization)
-    // console.log('credentials>>>>>', credentials)
 
-    if (credentials.name !== apiDocumentationCredentials.username || credentials.pass !== apiDocumentationCredentials.password) {
+    if (credentials.name !== apiDocumentationCredentials.name || credentials.pass !== apiDocumentationCredentials.pass) {
       return unauthorizedResponse()
     }
 
     next()
   })
 
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('Nest Backend')
-    .setDescription('Backend with nestJS')
+  const config = new DocumentBuilder()
+    .setTitle('MDG Customer MS')
+    .setDescription('A REST API using Nestjs for MDG Customer MS')
+    .addApiKey(
+      { type: 'apiKey', name: 'Authorization', in: 'header' },
+      'Authorization'
+    )
+    .addApiKey(
+      { type: 'apiKey', name: 'workspace-path', in: 'header' },
+      'workspace-path'
+    )
+    .addApiKey(
+      { type: 'apiKey', name: 'static-token', in: 'header' },
+      'static-token'
+    )
     .setVersion('1.0')
     .build()
-
-  const document = SwaggerModule.createDocument(app, swaggerConfig)
+  const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api/documentation', app, document)
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Server running on http://127.0.0.1:${+environment.PORT || 9000}. check Swagger at http://127.0.0.1:${+environment.PORT || 9000}/api/documentation`)
-};
-
-bootstrap();
+  // MessageBroker.getInstance().init()
+  await app.listen(Env.PORT || 9004)
+  console.log(`Server running at http://127.0.0.1:${Env.PORT || 9004}. Check swagger at http://127.0.0.1:${Env.PORT || 9004}/api/documentation`)
+}
+bootstrap()

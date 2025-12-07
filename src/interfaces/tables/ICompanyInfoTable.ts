@@ -1,4 +1,4 @@
-import { MULTITYPE } from '../../constants/dataType'
+import { MULTITYPE } from '../../shared/constants/dataType'
 import { ICompanyModulePermissionTable, ICompanyModulePermissionUpdateTable } from './ICompanyModulePermissionTable'
 
 export interface ICompanyInfoTable {
