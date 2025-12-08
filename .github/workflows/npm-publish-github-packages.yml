@@ -38,12 +38,4 @@ jobs:
 
       # ---------- Run DB Migrations (Optional) ----------
       # Enable only if you want migrations to run automatically
-      - name: Run DB migrations
-        run: npm run migrate:up
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
-      # ---------- Deployment Step ----------
-      # Replace with your server deployment method (SSH, Docker, AWS, etc.)
-      - name: Deploy to Server
-        run: echo "Add your deployment commands here"
