@@ -1,4 +1,5 @@
 export const TableNames = {
   USERS: 'users',
-  USERS_ADDRESSES: 'user_addresses'
+  USERS_ADDRESSES: 'user_addresses',
+  URLS: 'urls',
 };
