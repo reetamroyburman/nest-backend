@@ -15,6 +15,8 @@ interface IUserAttributes {
   password_hash: string;
   role: 'user' | 'admin' | 'super_admin';
   is_active?: boolean;
+  failed_login_attempts: number;
+  account_locked_until: Date | null;
   created_by?: number;
   updated_by?: number;
   created_at?: Date;
@@ -74,6 +76,14 @@ const Users = sequelize.define<Model<IUserAttributes, IUserCreationAttributes>>(
     is_active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+    },
+    failed_login_attempts: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    account_locked_until: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
     created_by: {
       type: DataTypes.BIGINT,
